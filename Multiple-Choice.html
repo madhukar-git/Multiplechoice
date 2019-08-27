@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+</head>
+
+
+<body ng-app="myApp" ng-controller="todoCtrl">
+    <div class="container">
+
+        <h2>Kriti Answers Sheet</h2>
+        Choose answer for : <br>
+        <h1>Q: {{counter}}</h1>
+        <form>
+            <table>
+                <tr>
+                    <td> <button class="btn btn-primary" ng-click="todoAdd('A')">--- A ---</button>
+                    </td>
+                    <td> <button class="btn btn-success" ng-click="todoAdd('B')">--- B ---</button>
+                    </td>
+                    <td> <button class="btn btn-info" ng-click="todoAdd('C')">--- C ---</button>
+                    </td>
+                    <td> <button class="btn btn-warning" ng-click="todoAdd('D')">--- D ---</button>
+                    </td>
+                    <td> <button class="btn btn-danger" ng-click="todoAdd('E')">--- E ---</button>
+                    </td>
+                </tr>
+
+                <tr>
+                </tr>
+
+                <tr>
+
+                    <td><button class="btn btn-primary" ng-click="todoAdd('1')">--- 1 ---</button>
+                    </td>
+                    <td> <button class="btn btn-success" ng-click="todoAdd('2')">--- 2 ---</button>
+                    </td>
+                    <td> <button class="btn btn-info" ng-click="todoAdd('3')">--- 3 ---</button>
+                    </td>
+                    <td><button class="btn btn-warning" ng-click="todoAdd('4')">--- 4 ---</button>
+                    </td>
+                    <td><button class="btn btn-danger" ng-click="todoAdd('5')">--- 5 ---</button>
+                    </td>
+                </tr>
+
+            </table>
+
+
+
+        </form>
+
+        <br />
+        <div><button ng-click="undo()">Undo</button></div>
+
+        <br>
+        <br>
+        Previous Answers:
+        <div ng-repeat="x in todoList">
+            <input type="checkbox" ng-model="x.done"> <span ng-bind="x.todoText"></span>
+        </div>
+        <button ng-click="remove()">Remove marked</button> <button ng-click="reset()">Reset</button>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('todoCtrl', function ($scope) {
+            $scope.todoList = [];
+            $scope.counter = 1;
+
+            $scope.todoAdd = function (input) {
+
+                $scope.todoList.push({ todoText: $scope.counter + ") " + input, done: true });
+
+                $scope.counter++;
+            };
+
+            $scope.remove = function () {
+                var oldList = $scope.todoList;
+                $scope.todoList = [];
+                angular.forEach(oldList, function (x) {
+                    if (!x.done) $scope.todoList.push(x);
+                });
+            };
+
+            $scope.reset = function () {
+                $scope.todoList = [];
+                $scope.counter = 1;
+
+            };
+
+            $scope.undo = function () {
+                if ($scope.counter < 2)
+                    return;
+                $scope.todoList.pop();
+                $scope.counter--;
+            };
+
+
+        });
+    </script>
+
+</body>
+
+</html>
